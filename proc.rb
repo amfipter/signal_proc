@@ -1,12 +1,13 @@
 module Proc_main
-  def main.self()
-    include Proc_work
+  include Proc_work
+  def self.main()
+    
 
-    data = read($data_name, 1)
-    noise = read($noise_name, 1)
+    data = Proc_work.read($data_name, 1)
+    noise = Proc_work.read($noise_name, 1)
 
-    noise_n = narray_create_float(noise)
-    data_n = narray_create_float(data)
+    noise_n = Proc_work.narray_create_float(noise)
+    data_n = Proc_work.narray_create_float(data)
 
     noise_mean = noise_n.mean
     data_n -= noise_mean
@@ -20,15 +21,15 @@ module Proc_main
 
 
     $noise_cycle.times do
-      data_n = simple_noise_reduct(data_n, noise_mean_abs)
-      noise_n = simple_noise_reduct(noise_n, noise_mean_abs)
+      data_n = Proc_work.simple_noise_reduct(data_n, noise_mean_abs)
+      noise_n = Proc_work.simple_noise_reduct(noise_n, noise_mean_abs)
       noise_mean_abs = noise_n.clone.abs.mean
     end
 
-    noise_proc = narray_to_array(noise_n)
+    noise_proc = Proc_work.narray_to_array(noise_n)
 
 
-    data_proc = narray_to_array(data_n)
+    data_proc = Proc_work.narray_to_array(data_n)
 
 
 
