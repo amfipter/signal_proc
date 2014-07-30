@@ -21,6 +21,8 @@ module Proc_main
       noise_mean_abs = noise_n.clone.abs.mean
     end
 
+    void_noise_reduct(data_n)
+
     noise_proc = narray_to_array(noise_n)
 
 
@@ -73,4 +75,12 @@ module Proc_main
   def self.find_noise(ndata)
     nil
   end
+
+  def self.void_noise_reduct(data, void_noise_abs = 0.001)
+    data.length.times do |i|
+      data[i] = 0 if data[i].abs <= void_noise_abs
+    end
+    nil
+  end
+
 end
