@@ -16,12 +16,13 @@ module Proc_main
     # exit
 
     $noise_cycle.times do
-      data_n = simple_noise_reduct(data_n, noise_mean_abs)
-      noise_n = simple_noise_reduct(noise_n, noise_mean_abs)
+      simple_noise_reduct(data_n, noise_mean_abs)
+      simple_noise_reduct(noise_n, noise_mean_abs)
       noise_mean_abs = noise_n.clone.abs.mean
     end
 
     void_noise_reduct(data_n)
+    middle_noise_reduct(data_n, noise_n.abs.max)
 
     noise_proc = narray_to_array(noise_n)
 
@@ -79,6 +80,14 @@ module Proc_main
   def self.void_noise_reduct(data, void_noise_abs = 0.001)
     data.length.times do |i|
       data[i] = 0 if data[i].abs <= void_noise_abs
+    end
+    nil
+  end
+
+  def self.middle_noise_reduct(data, middle_noise_abs = 0.025)
+    # STDERR.puts middle_noise_abs
+    data.length.times do |i|
+      data[i] = 0 if data[i].abs <= middle_noise_abs + $eps
     end
     nil
   end

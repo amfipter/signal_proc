@@ -8,7 +8,8 @@ require 'pp'
 
 $data_name = ARGV[0]
 $noise_name = ARGV[1]
-$noise_cycle = 20
+$noise_cycle = 5
+$eps = 0.001
 
 
 Proc_main.main
