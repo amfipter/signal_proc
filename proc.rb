@@ -23,6 +23,7 @@ module Proc_main
 
     void_noise_reduct(data_n)
     middle_noise_reduct(data_n, noise_n.abs.max)
+    experimental_noise_reduct(data_n, 1.0)
 
     noise_proc = narray_to_array(noise_n)
 
@@ -92,4 +93,10 @@ module Proc_main
     nil
   end
 
+  def self.experimental_noise_reduct(data, ex_noise_reduct)
+    data.length.times do |i|
+      data[i] = 0 if data[i].abs <= experimental_noise_reduct + $eps
+    end
+    nil
+  end
 end
