@@ -1,6 +1,6 @@
 module Proc_main
   include Proc_work
-  def self.main()   
+  def self.main()
 
     data = read($data_name, 1)
     noise = read($noise_name, 1)
@@ -22,15 +22,14 @@ module Proc_main
     end
 
     void_noise_reduct(data_n)
-    middle_noise_reduct(data_n, noise_n.abs.max)
-    experimental_noise_reduct(data_n, 1.0)
+    middle_noise_reduct(data_n, noise_n.abs.max * 2.0)
+    # experimental_noise_reduct(data_n, 1.0)
+    big_interval_noise_reduct(data_n, 0.5, 15000)
 
     noise_proc = narray_to_array(noise_n)
 
 
     data_proc = narray_to_array(data_n)
-
-
 
     puts data_proc
 
@@ -59,9 +58,9 @@ module Proc_main
   end
 
   def self.narray_to_array(narray)
-    out = Array.new 
+    out = Array.new
     narray.each do |el|
-      out.push el 
+      out.push el
     end
     out
   end
@@ -71,7 +70,7 @@ module Proc_main
       data[i] += mean_abs if data[i] < 0
       data[i] -= mean_abs if data[i] > 0
     end
-    data 
+    data
   end
 
   def self.find_noise(ndata)
@@ -95,8 +94,26 @@ module Proc_main
 
   def self.experimental_noise_reduct(data, ex_noise_reduct)
     data.length.times do |i|
-      data[i] = 0 if data[i].abs <= experimental_noise_reduct + $eps
+      data[i] = 0 if data[i].abs >= ex_noise_reduct + $eps
     end
+    nil
+  end
+
+  def self.big_interval_noise_reduct(data, bi_noise_reduct, interval)
+    data.length.times do |i|
+      interval_remove(data, i, interval) if data[i].abs >= bi_noise_reduct
+    end
+    nil
+  end
+
+  def self.interval_remove(data, index, interval)
+    min = index - interval
+    min = 0 if min < 0
+
+    max = index+interval
+    max = data.length - 1 if max >= data.length
+    data[min..max] = 0.0
+    # STDERR.puts data[(index-interval)..(index+interval)]
     nil
   end
 end
