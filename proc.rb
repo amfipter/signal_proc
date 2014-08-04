@@ -2,6 +2,7 @@ module Proc_main
     def self.main()
 
     data = read($data_name, 1)
+    data_time = read($data_name, 0)
     noise = read($noise_name, 1)
 
     noise_n = narray_create_float(noise)
@@ -30,7 +31,7 @@ module Proc_main
 
     data_proc = narray_to_array(data_n)
 
-    data_proc
+    return data_time, data_proc
   end
 
   private

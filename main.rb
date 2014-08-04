@@ -4,6 +4,7 @@ require './proc_work.rb'
 require './proc.rb'
 require './tools.rb'
 require './compress.rb'
+require 'pathname'
 require 'narray'
 require 'pp'
 require 'ai4r'
@@ -19,11 +20,15 @@ $SAMPLE_PERIOD = 1
 $DATA_COMPRESS = 10
 
 
-data_proc = Proc_main.main
-compress = Signal_compress.new(data_proc)
+data_time, data_proc = Proc_main.main
 
+compress = Signal_compress.new(data_proc)
 data_comp = compress.comp($DATA_COMPRESS)
 
+compress = Signal_compress.new(data_time)
+data_time_comp = compress.comp($DATA_COMPRESS)
+
+Tools.data_print2(data_time_comp, data_comp, "#{Pathname.new($data_name).basename}_clear_comp#{$DATA_COMPRESS}")
 
 # Tools.data_print(data_proc, "t_01_clear")
 # Tools.data_print(compress.comp(2), "t_01_comp_2")
