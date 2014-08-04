@@ -1,6 +1,5 @@
 module Proc_main
-  include Proc_work
-  def self.main()
+    def self.main()
 
     data = read($data_name, 1)
     noise = read($noise_name, 1)
@@ -15,7 +14,7 @@ module Proc_main
     # pp noise_mean_abs
     # exit
 
-    $noise_cycle.times do
+    $NOISE_CYCLE.times do
       simple_noise_reduct(data_n, noise_mean_abs)
       simple_noise_reduct(noise_n, noise_mean_abs)
       noise_mean_abs = noise_n.clone.abs.mean
@@ -31,9 +30,7 @@ module Proc_main
 
     data_proc = narray_to_array(data_n)
 
-    puts data_proc
-
-
+    data_proc
   end
 
   private
@@ -87,14 +84,14 @@ module Proc_main
   def self.middle_noise_reduct(data, middle_noise_abs = 0.025)
     # STDERR.puts middle_noise_abs
     data.length.times do |i|
-      data[i] = 0 if data[i].abs <= middle_noise_abs + $eps
+      data[i] = 0 if data[i].abs <= middle_noise_abs + $EPS
     end
     nil
   end
 
   def self.experimental_noise_reduct(data, ex_noise_reduct)
     data.length.times do |i|
-      data[i] = 0 if data[i].abs >= ex_noise_reduct + $eps
+      data[i] = 0 if data[i].abs >= ex_noise_reduct + $EPS
     end
     nil
   end
