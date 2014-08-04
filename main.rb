@@ -19,6 +19,10 @@ $SAMPLE_SIZE = 0
 $SAMPLE_PERIOD = 1
 $DATA_COMPRESS = 10
 
+mf_data = Timemarks_parse.get_membership_function($data_name)
+Tools.data_print2(mf_data.keys, mf_data.values, 'mf_data')
+exit
+
 
 data_time, data_proc = Proc_main.main
 
