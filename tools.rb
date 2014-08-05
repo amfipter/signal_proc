@@ -19,6 +19,7 @@ end
 class Timemarks
   def initialize(file_name)
     local_eps = 0.001
+    max = 0.0
     @mf_data = Hash.new
     f = File.open(file_name, 'r')
     slice = nil
@@ -34,6 +35,10 @@ class Timemarks
       @mf_data[data[0].to_f] = data[2].to_i
       @mf_data[data[1].to_f] = data[2].to_i
       @mf_data[(data[1].to_f + local_eps).round(3)] = 0
+      max = data[1].to_f - data[0].to_f if data[1].to_f - data[0].to_f > max
+      if(data[1].to_f - data[0].to_f > 1.0)
+        puts data[0]
+      end
       # puts local_eps
       # puts data[0].to_f.to_s
       # puts (data[0].to_f - local_eps).to_s
@@ -41,11 +46,12 @@ class Timemarks
       # puts (data[1].to_f + local_eps).to_s
       # sleep 1
     end
+    puts max 
     f.close
   end
 
   def get_membership_function()
     @mf_data
   end
-  
+
 end
